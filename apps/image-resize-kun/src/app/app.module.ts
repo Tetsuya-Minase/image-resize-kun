@@ -3,10 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HeaderModule } from './components/header/header.module';
+import { MainModule } from './components/main/main.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, HeaderModule],
+  imports: [BrowserModule, HeaderModule, MainModule],
   providers: [],
   bootstrap: [AppComponent],
 })
