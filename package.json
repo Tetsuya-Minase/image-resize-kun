@@ -2,6 +2,7 @@
   "name": "image-resize-kun",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "tools/main.js",
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
@@ -25,7 +26,8 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "electron:serve": "electron ."
   },
   "private": true,
   "dependencies": {
@@ -71,7 +73,6 @@
     "jest-preset-angular": "9.0.3",
     "prettier": "^2.3.1",
     "ts-jest": "27.0.3",
-    "ts-node": "~9.1.1",
     "typescript": "~4.2.4"
   }
 }
