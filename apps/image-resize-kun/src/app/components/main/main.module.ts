@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 
 import { MainComponent } from './main.component';
+import { ImageModule } from '../image/image.module';
 
 @NgModule({
-  imports: [],
+  imports: [ImageModule],
   exports: [MainComponent],
   declarations: [MainComponent],
   providers: [],
