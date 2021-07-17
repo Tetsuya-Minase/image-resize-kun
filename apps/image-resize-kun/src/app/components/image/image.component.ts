@@ -8,9 +8,8 @@ import { ImageService } from './image.service';
 export class ImageComponent {
   constructor(private readonly imageService: ImageService) {}
 
-  onChangeImage(event: Event) {
+  public async onChangeImage(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    console.log(inputElement);
-    this.imageService.readImage(inputElement.files);
+    await this.imageService.readImageAsUint8Array(inputElement.files);
   }
 }
