@@ -7,12 +7,12 @@ import { UnexpectedError } from '../../model/error/unexpected-error';
 export class ImageService {
   public async readImageAsUint8Array(
     files: Nullable<FileList>
-  ): Promise<Uint8Array[]> {
+  ): Promise<Array<string | ArrayBuffer>> {
     if (files === null) {
       throw new InvalidOperationError('upload files are required.');
     }
     const convertingImage = Array.from(files).map(
-      (f): Promise<Uint8Array> =>
+      (f): Promise<string | ArrayBuffer> =>
         new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.addEventListener(
@@ -22,17 +22,10 @@ export class ImageService {
                 reject(new UnexpectedError(`fail to read image file.`));
                 return;
               }
-              try {
-                const uint8Array = new Uint8Array(
-                  event.target.result as ArrayBufferLike
-                );
-                resolve(uint8Array);
-              } catch {
-                reject(new UnexpectedError('fail to convert image file.'));
-              }
+              resolve(event.target.result);
             }
           );
-          reader.readAsArrayBuffer(f);
+          reader.readAsDataURL(f);
         })
     );
     return await Promise.all(convertingImage);
