@@ -4,6 +4,7 @@ import { InvalidOperationError } from '../../model/error/invalid-operation-error
 import { UnexpectedError } from '../../model/error/unexpected-error';
 import { ReadImage } from './model/ReadImage';
 import { ResizedImage } from './model/ResizedImage';
+import { DisplayImage } from './model/DisplayImage';
 
 @Injectable()
 export class ImageService {
@@ -75,5 +76,24 @@ export class ImageService {
         resolve({ name: readImage.name, dataUrl: result });
       };
     });
+  }
+
+  public margeImageList(
+    inputImageList: ReadImage[],
+    resizedImageList: ResizedImage[]
+  ): DisplayImage[] {
+    const result = inputImageList.map((i): DisplayImage => {
+      const resizedImage = resizedImageList.find((r) => i.name === r.name);
+      if (resizedImage === undefined) {
+        throw new UnexpectedError('resized image is required');
+      }
+      return {
+        name: i.name,
+        inputDataUrl: i.dataUrl,
+        resizedDataUrl: resizedImage.dataUrl,
+      };
+    });
+    console.log(result);
+    return result;
   }
 }

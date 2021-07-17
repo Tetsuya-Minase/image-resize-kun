@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { ImageService } from './image.service';
+import { DisplayImage } from './model/DisplayImage';
 
 @Component({
   selector: 'image-resize-kun-image',
   templateUrl: 'image.component.html',
 })
 export class ImageComponent {
-  public imageList: Array<string | ArrayBuffer> = [];
-  public resizedImageList: Array<string> = [];
+  public compareList: DisplayImage[] = [];
 
   constructor(private readonly imageService: ImageService) {}
 
@@ -16,12 +16,9 @@ export class ImageComponent {
     const inputList = await this.imageService.readImagesAsDataURL(
       inputElement.files
     );
-    this.imageList = inputList.map((i) => i.dataUrl);
-
     const resizedList = await Promise.all(
       inputList.map((i) => this.imageService.resizeImage(i))
     );
-    this.resizedImageList = resizedList.map((r) => r.dataUrl);
-    console.log(this.resizedImageList);
+    this.compareList = this.imageService.margeImageList(inputList, resizedList);
   }
 }

@@ -1,11 +1,8 @@
-<ng-container *ngIf='imageList.length > 0; else ImageUploadForm'>
-  <div *ngFor='let image of imageList; index as i'>
+<ng-container *ngIf='compareList.length > 0; else ImageUploadForm'>
+  <div *ngFor='let compareItem of compareList; index as i'>
     before image
-    <img [src]='image' [alt]='"upload image" + i' />
-  </div>
-  <div *ngFor='let resizedImage of resizedImageList; index as i'>
-    resized image
-    <img [src]='resizedImage' [alt]='"resized image" + i' />
+    <img [src]='compareItem.inputDataUrl' [alt]='"upload image" + i' />
+    <img [src]='compareItem.resizedDataUrl' [alt]='"resized image" + i' />
   </div>
 </ng-container>
 <ng-template #ImageUploadForm>
