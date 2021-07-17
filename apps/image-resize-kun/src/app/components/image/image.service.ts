@@ -5,7 +5,7 @@ import { UnexpectedError } from '../../model/error/unexpected-error';
 
 @Injectable()
 export class ImageService {
-  public async readImageAsUint8Array(
+  public async readImagesAsDataURL(
     files: Nullable<FileList>
   ): Promise<Array<string | ArrayBuffer>> {
     if (files === null) {
@@ -29,5 +29,26 @@ export class ImageService {
         })
     );
     return await Promise.all(convertingImage);
+  }
+
+  public async resizeImages(image: string | ArrayBuffer): Promise<string> {
+    const canvas = document.createElement('canvas');
+    canvas.width = 300;
+    canvas.height = 300;
+    const context = canvas.getContext('2d');
+    if (context === null) {
+      throw new InvalidOperationError('fait to get context');
+    }
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    return new Promise((resolve) => {
+      const canvasImage = new Image();
+      // FIXME: type
+      canvasImage.src = image as string;
+      canvasImage.onload = () => {
+        context.drawImage(canvasImage, 0, 0, 100, 100, 0, 0, 300, 300);
+        const result = canvas.toDataURL();
+        resolve(result);
+      };
+    });
   }
 }

@@ -1,5 +1,10 @@
-<ng-container *ngIf='imageSrc; else ImageUploadForm'>
-  <img [src]='imageSrc' alt='upload image' />
+<ng-container *ngIf='imageList.length > 0; else ImageUploadForm'>
+  <div *ngFor='let image of imageList; index as i'>
+    before image
+    <img [src]='image' [alt]='"upload image" + i' />
+  </div>
+  resized image
+  <img [src]='resizedImageList[0]' [alt]='"upload image"' />
 </ng-container>
 <ng-template #ImageUploadForm>
   <label class='flex w-1/3 h-40 justify-center items-center border border-gray-800 border-dashed'>
