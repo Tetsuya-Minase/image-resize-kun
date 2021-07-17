@@ -8,6 +8,10 @@ import { DisplayImage } from './model/DisplayImage';
 
 @Injectable()
 export class ImageService {
+  /**
+   * read image dataUrl from input files.
+   * @param files input files
+   */
   public async readImagesAsDataURL(
     files: Nullable<FileList>
   ): Promise<Array<ReadImage>> {
@@ -47,6 +51,10 @@ export class ImageService {
     return await Promise.all(convertingImage);
   }
 
+  /**
+   * resize image.
+   * @param readImage read image file
+   */
   public async resizeImage(readImage: ReadImage): Promise<ResizedImage> {
     console.log('resizeImage');
     const canvas = document.createElement('canvas');
@@ -78,11 +86,16 @@ export class ImageService {
     });
   }
 
+  /**
+   * marge input images and resized images.
+   * @param inputImageList input images
+   * @param resizedImageList resized images
+   */
   public margeImageList(
     inputImageList: ReadImage[],
     resizedImageList: ResizedImage[]
   ): DisplayImage[] {
-    const result = inputImageList.map((i): DisplayImage => {
+    return inputImageList.map((i): DisplayImage => {
       const resizedImage = resizedImageList.find((r) => i.name === r.name);
       if (resizedImage === undefined) {
         throw new UnexpectedError('resized image is required');
@@ -93,7 +106,5 @@ export class ImageService {
         resizedDataUrl: resizedImage.dataUrl,
       };
     });
-    console.log(result);
-    return result;
   }
 }
