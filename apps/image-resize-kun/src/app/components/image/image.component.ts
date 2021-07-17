@@ -13,12 +13,15 @@ export class ImageComponent {
 
   public async onChangeImage(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    this.imageList = await this.imageService.readImagesAsDataURL(
+    const inputList = await this.imageService.readImagesAsDataURL(
       inputElement.files
     );
-    const resizedImage = await this.imageService.resizeImages(
-      this.imageList[0]
+    this.imageList = inputList.map((i) => i.dataUrl);
+
+    const resizedList = await Promise.all(
+      inputList.map((i) => this.imageService.resizeImage(i))
     );
-    this.resizedImageList.push(resizedImage);
+    this.resizedImageList = resizedList.map((r) => r.dataUrl);
+    console.log(this.resizedImageList);
   }
 }

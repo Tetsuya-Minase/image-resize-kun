@@ -3,8 +3,10 @@
     before image
     <img [src]='image' [alt]='"upload image" + i' />
   </div>
-  resized image
-  <img [src]='resizedImageList[0]' [alt]='"upload image"' />
+  <div *ngFor='let resizedImage of resizedImageList; index as i'>
+    resized image
+    <img [src]='resizedImage' [alt]='"resized image" + i' />
+  </div>
 </ng-container>
 <ng-template #ImageUploadForm>
   <label class='flex w-1/3 h-40 justify-center items-center border border-gray-800 border-dashed'>
