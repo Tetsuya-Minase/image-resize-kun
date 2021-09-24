@@ -56,7 +56,6 @@ export class ImageService {
    * @param readImage read image file
    */
   public async resizeImage(readImage: ReadImage): Promise<ResizedImage> {
-    console.log('resizeImage');
     const canvas = document.createElement('canvas');
     canvas.width = readImage.width * 3;
     canvas.height = readImage.height * 3;
