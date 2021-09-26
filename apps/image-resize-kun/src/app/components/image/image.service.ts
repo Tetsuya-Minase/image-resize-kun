@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Nullable } from '../../types/expansion-type';
 import { InvalidOperationError } from '../../model/error/invalid-operation-error';
 import { UnexpectedError } from '../../model/error/unexpected-error';
-import { ReadImage } from './model/ReadImage';
-import { ResizedImage } from './model/ResizedImage';
-import { DisplayImage } from './model/DisplayImage';
+import {
+  DisplayImage,
+  ReadImage,
+  ResizedImage,
+} from '../../model/state/image.state';
 
 @Injectable()
 export class ImageService {

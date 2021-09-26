@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ImageService } from '../../image.service';
-import { DisplayImage } from '../../model/DisplayImage';
+import { DisplayImage } from '../../../../model/state/image.state';
 
 @Component({
   selector: 'image-resize-kun-image-upload',

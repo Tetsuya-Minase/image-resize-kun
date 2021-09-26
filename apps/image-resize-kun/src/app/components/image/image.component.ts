@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DisplayImage } from './model/DisplayImage';
+import { DisplayImage } from '../../model/state/image.state';
 
 @Component({
   selector: 'image-resize-kun-image',

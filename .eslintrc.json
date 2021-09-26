@@ -47,7 +47,11 @@
         "plugin:@nrwl/nx/typescript",
         "plugin:ngrx/recommended"
       ],
-      "rules": {},
+      "rules": {
+        "rxjs/no-unsafe-catch": "off",
+        "rxjs/no-unsafe-first": "off",
+        "rxjs/no-unsafe-switchmap": "off"
+      },
       "plugins": [
         "ngrx"
       ]
