@@ -54,11 +54,15 @@ export class ImageService {
   /**
    * resize image.
    * @param readImage read image file
+   * @param range resize range
    */
-  public async resizeImage(readImage: ReadImage): Promise<ResizedImage> {
+  public async resizeImage(
+    readImage: ReadImage,
+    range: number
+  ): Promise<ResizedImage> {
     const canvas = document.createElement('canvas');
-    canvas.width = readImage.width * 3;
-    canvas.height = readImage.height * 3;
+    canvas.width = readImage.width * range;
+    canvas.height = readImage.height * range;
     const context = canvas.getContext('2d');
     if (context === null) {
       throw new InvalidOperationError('fait to get context');

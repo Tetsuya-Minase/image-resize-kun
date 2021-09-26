@@ -17,7 +17,7 @@ export class ImageUploadComponent {
       inputElement.files
     );
     const resizedList = await Promise.all(
-      inputList.map((i) => this.imageService.resizeImage(i))
+      inputList.map((i) => this.imageService.resizeImage(i, 3))
     );
     this.event.emit(this.imageService.margeImageList(inputList, resizedList));
   }
