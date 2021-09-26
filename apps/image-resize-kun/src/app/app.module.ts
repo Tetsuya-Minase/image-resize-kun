@@ -5,10 +5,11 @@ import { AppComponent } from './app.component';
 import { HeaderModule } from './components/header/header.module';
 import { MainModule } from './components/main/main.module';
 import { ImageModule } from './components/image/image.module';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, HeaderModule, MainModule, ImageModule],
+  imports: [BrowserModule, HeaderModule, MainModule, ImageModule, StoreModule.forRoot({}, {})],
   providers: [],
   bootstrap: [AppComponent],
 })
