@@ -1,5 +1,3 @@
-import { Nullable } from '../../types/expansion-type';
-
 interface _DisplayImage {
   name: string;
   inputDataUrl: string;
@@ -24,14 +22,14 @@ interface _ResizedImage {
 
 export type ResizedImage = Readonly<_ResizedImage>;
 
-interface ImageState {
-  displayImage: Nullable<DisplayImage>;
-  readImage: Nullable<ReadImage>;
-  resizedImage: Nullable<ResizedImage>;
+export interface ImageState {
+  displayImage: DisplayImage[];
+  readImage: ReadImage[];
+  resizedImage: ResizedImage[];
 }
 
 export const initialState: ImageState = {
-  displayImage: null,
-  readImage: null,
-  resizedImage: null,
+  displayImage: [],
+  readImage: [],
+  resizedImage: [],
 };

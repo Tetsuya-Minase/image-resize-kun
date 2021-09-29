@@ -7,6 +7,7 @@ import {
   ReadImage,
   ResizedImage,
 } from '../../model/state/image.state';
+import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class ImageService {
@@ -14,9 +15,9 @@ export class ImageService {
    * read image dataUrl from input files.
    * @param files input files
    */
-  public async readImagesAsDataURL(
+  public readImagesAsDataURL(
     files: Nullable<FileList>
-  ): Promise<Array<ReadImage>> {
+  ): Observable<Array<ReadImage>> {
     if (files === null) {
       throw new InvalidOperationError('upload files are required.');
     }
@@ -50,7 +51,7 @@ export class ImageService {
           reader.readAsDataURL(f);
         })
     );
-    return await Promise.all(convertingImage);
+    return from(Promise.all(convertingImage));
   }
 
   /**
@@ -58,10 +59,10 @@ export class ImageService {
    * @param readImage read image file
    * @param range resize range
    */
-  public async resizeImage(
+  public resizeImage(
     readImage: ReadImage,
     range: number
-  ): Promise<ResizedImage> {
+  ): Observable<ResizedImage> {
     const canvas = document.createElement('canvas');
     canvas.width = readImage.width * range;
     canvas.height = readImage.height * range;
@@ -70,25 +71,27 @@ export class ImageService {
       throw new InvalidOperationError('fait to get context');
     }
     context.clearRect(0, 0, canvas.width, canvas.height);
-    return new Promise((resolve) => {
-      const canvasImage = new Image();
-      canvasImage.src = readImage.dataUrl;
-      canvasImage.onload = () => {
-        context.drawImage(
-          canvasImage,
-          0,
-          0,
-          readImage.width,
-          readImage.height,
-          0,
-          0,
-          readImage.width * 3,
-          readImage.height * 3
-        );
-        const result = canvas.toDataURL();
-        resolve({ name: readImage.name, dataUrl: result });
-      };
-    });
+    return from(
+      new Promise<ResizedImage>((resolve) => {
+        const canvasImage = new Image();
+        canvasImage.src = readImage.dataUrl;
+        canvasImage.onload = () => {
+          context.drawImage(
+            canvasImage,
+            0,
+            0,
+            readImage.width,
+            readImage.height,
+            0,
+            0,
+            readImage.width * 3,
+            readImage.height * 3
+          );
+          const result = canvas.toDataURL();
+          resolve({ name: readImage.name, dataUrl: result });
+        };
+      })
+    );
   }
 
   /**
