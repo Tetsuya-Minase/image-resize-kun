@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ImageService } from '../components/image/image.service';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, concatMap, map, tap } from 'rxjs/operators';
 import {
   readImage,
   readImageFailure,
@@ -13,13 +13,11 @@ import { of } from 'rxjs';
 export class ImageEffects {
   public readonly readImage$ = createEffect(() =>
     this.actions$.pipe(
+      tap((value) => console.log('in readImage', value)),
       ofType(readImage),
-      concatMap(({ file }) =>
-        this.imageService.readImagesAsDataURL(file).pipe(
-          map((response) => readImageSuccess({ readImages: response })),
-          catchError(() => of(readImageFailure()))
-        )
-      )
+      concatMap(({ files }) => this.imageService.readImagesAsDataURL(files)),
+      map((response) => readImageSuccess({ readImages: response })),
+      catchError(() => of(readImageFailure()))
     )
   );
 

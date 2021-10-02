@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Nullable } from '../../types/expansion-type';
 import { InvalidOperationError } from '../../model/error/invalid-operation-error';
 import { UnexpectedError } from '../../model/error/unexpected-error';
 import {
@@ -16,12 +15,9 @@ export class ImageService {
    * @param files input files
    */
   public readImagesAsDataURL(
-    files: Nullable<FileList>
+    files: ReadonlyArray<File>
   ): Observable<Array<ReadImage>> {
-    if (files === null) {
-      throw new InvalidOperationError('upload files are required.');
-    }
-    const convertingImage = Array.from(files).map(
+    const convertingImage = files.map(
       (f): Promise<ReadImage> =>
         new Promise((resolve, reject) => {
           const readImage = new Image();

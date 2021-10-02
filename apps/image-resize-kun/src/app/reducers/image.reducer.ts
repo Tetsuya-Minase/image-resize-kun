@@ -6,7 +6,7 @@ import {
   ReadImage,
   ResizedImage,
 } from '../model/state/image.state';
-import { margeImageList } from '../actions/image.action';
+import { margeImageList, readImageSuccess } from '../actions/image.action';
 import { UnexpectedError } from '../model/error/unexpected-error';
 
 /**
@@ -36,7 +36,10 @@ const _imageReducer = createReducer(
   on(margeImageList, (state) => ({
     ...state,
     displayImage: margeImages(state.readImage, state.resizedImage),
-  }))
+  })),
+  on(readImageSuccess, (state, { readImages }) => {
+    return { ...state, readImage: [...readImages] };
+  })
 );
 
 export function ImageReducer(state: ImageState | undefined, action: Action) {

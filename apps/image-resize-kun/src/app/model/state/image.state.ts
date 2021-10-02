@@ -23,9 +23,9 @@ interface _ResizedImage {
 export type ResizedImage = Readonly<_ResizedImage>;
 
 export interface ImageState {
-  displayImage: DisplayImage[];
-  readImage: ReadImage[];
-  resizedImage: ResizedImage[];
+  readonly displayImage: DisplayImage[];
+  readonly readImage: ReadImage[];
+  readonly resizedImage: ResizedImage[];
 }
 
 export const initialState: ImageState = {

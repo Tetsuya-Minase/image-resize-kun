@@ -1,10 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { ReadImage, ResizedImage } from '../model/state/image.state';
-import { Nullable } from '../types/expansion-type';
 
 export const readImage = createAction(
   '[image] readImage',
-  props<{ file: Nullable<FileList> }>()
+  props<{ files: ReadonlyArray<File> }>()
 );
 export const readImageSuccess = createAction(
   '[image] readImageSuccess',
