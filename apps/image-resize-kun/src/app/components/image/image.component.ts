@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  DisplayImage,
-  ImageState,
-  ReadImage,
-} from '../../model/state/image.state';
+import { ImageState, ReadImage } from '../../model/state/image.state';
 import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
 import { resizeImage } from '../../actions/image.action';
 import { Observable } from 'rxjs';
@@ -13,7 +9,6 @@ import { Observable } from 'rxjs';
   templateUrl: 'image.component.html',
 })
 export class ImageComponent implements OnInit {
-  public compareList: DisplayImage[] = [];
   public readonly readImageList$: Observable<ReadImage[]>;
 
   constructor(private readonly store: Store<{ image: ImageState }>) {
@@ -31,9 +26,5 @@ export class ImageComponent implements OnInit {
         this.store.dispatch(resizeImage({ readImage: i, range: 3 }));
       });
     });
-  }
-
-  public uploadImage(uploadedImage: DisplayImage[]) {
-    this.compareList = uploadedImage;
   }
 }

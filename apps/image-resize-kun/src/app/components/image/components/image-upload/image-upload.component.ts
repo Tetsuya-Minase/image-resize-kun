@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { DisplayImage, ImageState } from '../../../../model/state/image.state';
+import { Component } from '@angular/core';
+import { ImageState } from '../../../../model/state/image.state';
 import { Store } from '@ngrx/store';
 import { readImage } from '../../../../actions/image.action';
 import { InvalidOperationError } from '../../../../model/error/invalid-operation-error';
@@ -9,11 +9,7 @@ import { InvalidOperationError } from '../../../../model/error/invalid-operation
   templateUrl: 'image-upload.component.html',
 })
 export class ImageUploadComponent {
-  @Output() event = new EventEmitter<DisplayImage[]>();
-
-  constructor(private readonly store: Store<{ image: ImageState }>) {
-    this.store.select('image');
-  }
+  constructor(private readonly store: Store<{ image: ImageState }>) {}
 
   public async onChangeImage(event: Event) {
     const inputElement = event.target as HTMLInputElement;
