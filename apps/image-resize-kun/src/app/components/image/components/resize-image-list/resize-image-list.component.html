@@ -1,4 +1,4 @@
-<div *ngFor='let compareItem of compareList; index as i'>
+<div *ngFor='let compareItem of (displayList$ | async); index as i'>
   <section>
     <h1 class='text-gray-900 text-xl font-bold'>変換前画像</h1>
     <img class='border border-gray-800' [src]='compareItem.inputDataUrl' [alt]='"upload image" + i' />

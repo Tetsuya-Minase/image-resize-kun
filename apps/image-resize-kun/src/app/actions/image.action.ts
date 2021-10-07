@@ -14,10 +14,14 @@ export const resizeImage = createAction(
   '[image] resizeImage',
   props<{ readImage: ReadImage; range: number }>()
 );
+export const resizeImageSuccess = createAction(
+  '[image] resizeImageSuccess',
+  props<{ resizedImage: ResizedImage }>()
+);
+export const resizeImageFailure = createAction('[image] resizeImageFailure');
 export const margeImageList = createAction(
   '[image] margeImageList',
   props<{
-    inputImageList: ReadonlyArray<ReadImage>;
     resizedImageList: ReadonlyArray<ResizedImage>;
   }>()
 );

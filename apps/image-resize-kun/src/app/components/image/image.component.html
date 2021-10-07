@@ -1,4 +1,4 @@
-<ng-container *ngIf='compareList.length > 0; else ImageUploadForm'>
+<ng-container *ngIf='(readImageList$ | async)?.length || 0 > 0; else ImageUploadForm'>
   <image-resize-kun-resize-range-slider-component></image-resize-kun-resize-range-slider-component>
   <image-resize-kun-resize-image-list [compareList]='compareList'></image-resize-kun-resize-image-list>
 </ng-container>

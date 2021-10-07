@@ -6,7 +6,11 @@ import {
   ReadImage,
   ResizedImage,
 } from '../model/state/image.state';
-import { margeImageList, readImageSuccess } from '../actions/image.action';
+import {
+  margeImageList,
+  readImageSuccess,
+  resizeImageSuccess,
+} from '../actions/image.action';
 import { UnexpectedError } from '../model/error/unexpected-error';
 
 /**
@@ -18,27 +22,34 @@ function margeImages(
   inputImageList: ReadImage[],
   resizedImageList: ResizedImage[]
 ): DisplayImage[] {
-  return inputImageList.map((i): DisplayImage => {
-    const resizedImage = resizedImageList.find((r) => i.name === r.name);
-    if (resizedImage === undefined) {
-      throw new UnexpectedError('resized image is required');
-    }
-    return {
-      name: i.name,
-      inputDataUrl: i.dataUrl,
-      resizedDataUrl: resizedImage.dataUrl,
-    };
-  });
+  return inputImageList
+    .filter((i) => !!resizedImageList.find((r) => r.name === i.name))
+    .map((i): DisplayImage => {
+      const resizedImage = resizedImageList.find((r) => i.name === r.name);
+      if (resizedImage === undefined) {
+        throw new UnexpectedError('resized image is required');
+      }
+      return {
+        name: i.name,
+        inputDataUrl: i.dataUrl,
+        resizedDataUrl: resizedImage.dataUrl,
+      };
+    });
 }
 
 const _imageReducer = createReducer(
   initialState,
-  on(margeImageList, (state) => ({
-    ...state,
-    displayImage: margeImages(state.readImage, state.resizedImage),
-  })),
+  on(margeImageList, (state, { resizedImageList }) => {
+    return {
+      ...state,
+      displayImage: margeImages(state.readImage, [...resizedImageList]),
+    };
+  }),
   on(readImageSuccess, (state, { readImages }) => {
     return { ...state, readImage: [...readImages] };
+  }),
+  on(resizeImageSuccess, (state, { resizedImage }) => {
+    return { ...state, resizedImage: [...state.resizedImage, resizedImage] };
   })
 );
 
