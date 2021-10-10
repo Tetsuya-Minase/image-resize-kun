@@ -80,8 +80,8 @@ export class ImageService {
             readImage.height,
             0,
             0,
-            readImage.width * 3,
-            readImage.height * 3
+            readImage.width * range,
+            readImage.height * range
           );
           const result = canvas.toDataURL();
           resolve({ name: readImage.name, dataUrl: result });
