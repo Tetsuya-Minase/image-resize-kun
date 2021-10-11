@@ -45,11 +45,11 @@ const _imageReducer = createReducer(
       displayImage: margeImages(state.readImage, [...resizedImageList]),
     };
   }),
-  on(readImageSuccess, (state, { readImages }) => {
+  on(readImageSuccess, (state, { readImages }): ImageState => {
     return { ...state, readImage: [...readImages] };
   }),
-  on(resizeImageSuccess, (state, { resizedImage }) => {
-    return { ...state, resizedImage: [...state.resizedImage, resizedImage] };
+  on(resizeImageSuccess, (state, { resizedImage }): ImageState => {
+    return { ...state, resizedImage: [resizedImage] };
   })
 );
 
