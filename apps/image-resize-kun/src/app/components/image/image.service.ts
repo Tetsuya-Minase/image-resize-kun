@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Nullable } from '../../types/expansion-type';
 import { InvalidOperationError } from '../../model/error/invalid-operation-error';
 import { UnexpectedError } from '../../model/error/unexpected-error';
-import { ReadImage } from './model/ReadImage';
-import { ResizedImage } from './model/ResizedImage';
-import { DisplayImage } from './model/DisplayImage';
+import {
+  DisplayImage,
+  ReadImage,
+  ResizedImage,
+} from '../../model/state/image.state';
+import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class ImageService {
@@ -12,13 +14,10 @@ export class ImageService {
    * read image dataUrl from input files.
    * @param files input files
    */
-  public async readImagesAsDataURL(
-    files: Nullable<FileList>
-  ): Promise<Array<ReadImage>> {
-    if (files === null) {
-      throw new InvalidOperationError('upload files are required.');
-    }
-    const convertingImage = Array.from(files).map(
+  public readImagesAsDataURL(
+    files: ReadonlyArray<File>
+  ): Observable<Array<ReadImage>> {
+    const convertingImage = files.map(
       (f): Promise<ReadImage> =>
         new Promise((resolve, reject) => {
           const readImage = new Image();
@@ -48,41 +47,50 @@ export class ImageService {
           reader.readAsDataURL(f);
         })
     );
-    return await Promise.all(convertingImage);
+    return from(Promise.all(convertingImage));
   }
 
   /**
    * resize image.
    * @param readImage read image file
+   * @param range resize range
    */
-  public async resizeImage(readImage: ReadImage): Promise<ResizedImage> {
+  public resizeImage(
+    readImage: ReadImage,
+    range: number
+  ): Observable<ResizedImage> {
     const canvas = document.createElement('canvas');
-    canvas.width = readImage.width * 3;
-    canvas.height = readImage.height * 3;
+    canvas.width = readImage.width * range;
+    canvas.height = readImage.height * range;
     const context = canvas.getContext('2d');
     if (context === null) {
       throw new InvalidOperationError('fait to get context');
     }
     context.clearRect(0, 0, canvas.width, canvas.height);
-    return new Promise((resolve) => {
-      const canvasImage = new Image();
-      canvasImage.src = readImage.dataUrl;
-      canvasImage.onload = () => {
-        context.drawImage(
-          canvasImage,
-          0,
-          0,
-          readImage.width,
-          readImage.height,
-          0,
-          0,
-          readImage.width * 3,
-          readImage.height * 3
-        );
-        const result = canvas.toDataURL();
-        resolve({ name: readImage.name, dataUrl: result });
-      };
-    });
+    return from(
+      new Promise<ResizedImage>((resolve) => {
+        const canvasImage = new Image();
+        canvasImage.src = readImage.dataUrl;
+        canvasImage.onload = () => {
+          context.drawImage(
+            canvasImage,
+            0,
+            0,
+            readImage.width,
+            readImage.height,
+            0,
+            0,
+            readImage.width * range,
+            readImage.height * range
+          );
+          const result = canvas.toDataURL();
+          resolve({
+            name: readImage.name,
+            dataUrl: result,
+          });
+        };
+      })
+    );
   }
 
   /**
