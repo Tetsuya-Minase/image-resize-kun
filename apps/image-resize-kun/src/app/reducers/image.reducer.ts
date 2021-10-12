@@ -49,7 +49,10 @@ const _imageReducer = createReducer(
     return { ...state, readImage: [...readImages] };
   }),
   on(resizeImageSuccess, (state, { resizedImage }): ImageState => {
-    return { ...state, resizedImage: [resizedImage] };
+    const image = state.resizedImage.filter(
+      (r) => r.name !== resizedImage.name
+    );
+    return { ...state, resizedImage: [...image, resizedImage] };
   })
 );
 
