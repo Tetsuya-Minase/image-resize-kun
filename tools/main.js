@@ -15,23 +15,24 @@ function createWindow() {
     width: size.width,
     height: size.height,
     webPreferences: {
-      nodeIntegration: true
-    }
-  })
+      nodeIntegration: true,
+    },
+  });
 
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/apps/image-resize-kun/index.html').replace('/tools', ''),
-    protocol: 'file:',
-    slashes: true
-  }));
+  const filePath = path
+    .join(__dirname, 'dist/apps/image-resize-kun/index.html')
+    .replace('/tools', '');
+  console.log(filePath);
+  const appUrl = new URL(`file:///${filePath}`);
+  win.loadURL(appUrl.toString());
 
   // dev toolを開く
   win.webContents.openDevTools();
 
-  win.on('closed', () => win = null);
+  win.on('closed', () => (win = null));
 
   return win;
-};
+}
 
 app.allowRendererProcessReuse = true;
 
