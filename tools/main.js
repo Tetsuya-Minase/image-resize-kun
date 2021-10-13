@@ -1,5 +1,4 @@
 const { app, BrowserWindow, screen } = require('electron');
-const url = require('url');
 const path = require('path');
 
 let win = null;
@@ -22,12 +21,13 @@ function createWindow() {
   const filePath = path
     .join(__dirname, 'dist/apps/image-resize-kun/index.html')
     .replace('/tools', '');
-  console.log(filePath);
   const appUrl = new URL(`file:///${filePath}`);
   win.loadURL(appUrl.toString());
 
   // dev toolを開く
-  win.webContents.openDevTools();
+  if (process.env.NODE_ENV !== 'production') {
+    win.webContents.openDevTools();
+  }
 
   win.on('closed', () => (win = null));
 
