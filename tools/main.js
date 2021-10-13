@@ -25,7 +25,7 @@ function createWindow() {
   win.loadURL(appUrl.toString());
 
   // dev toolを開く
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'development') {
     win.webContents.openDevTools();
   }
 
