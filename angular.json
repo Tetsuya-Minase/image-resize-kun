@@ -9,7 +9,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/image-resize-kun",
             "index": "apps/image-resize-kun/src/index.html",
@@ -21,7 +23,9 @@
               "apps/image-resize-kun/src/favicon.ico",
               "apps/image-resize-kun/src/assets"
             ],
-            "styles": ["apps/image-resize-kun/src/styles.scss"],
+            "styles": [
+              "apps/image-resize-kun/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -30,7 +34,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -86,7 +90,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/image-resize-kun"],
+          "outputs": [
+            "coverage/apps/image-resize-kun"
+          ],
           "options": {
             "jestConfig": "apps/image-resize-kun/jest.config.js",
             "passWithNoTests": true
@@ -115,7 +121,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/image-resize-kun-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/image-resize-kun-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }

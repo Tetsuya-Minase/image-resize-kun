@@ -27,7 +27,10 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "electron:serve": "electron ."
+    "electron:dev": "NODE_ENV=develop electron-forge start",
+    "electron:prod": "NODE_ENV=production electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +45,7 @@
     "@ngrx/effects": "^12.4.0",
     "@ngrx/store": "^12.4.0",
     "@nrwl/angular": "12.5.8",
+    "electron-squirrel-startup": "^1.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -54,6 +58,11 @@
     "@angular/cli": "^12.0.0",
     "@angular/compiler-cli": "^12.0.0",
     "@angular/language-service": "^12.0.0",
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@nrwl/cli": "12.5.8",
     "@nrwl/cypress": "12.5.8",
     "@nrwl/eslint-plugin-nx": "12.5.8",
@@ -73,12 +82,39 @@
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-ngrx": "^1.0.0",
     "jest": "27.0.3",
     "jest-preset-angular": "9.0.3",
     "prettier": "^2.3.1",
     "tailwindcss": "^2.2.4",
     "ts-jest": "27.0.3",
-    "typescript": "~4.2.4",
-    "eslint-plugin-ngrx": "^1.0.0"
+    "typescript": "~4.2.4"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "image_resize_kun"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
